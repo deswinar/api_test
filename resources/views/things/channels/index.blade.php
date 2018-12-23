@@ -3,35 +3,35 @@
 @section('content')
 
 <div class="card">
-    <div class="card-header">Things</div>
+    <div class="card-header">Channel</div>
 
     <div class="card-body">
         <div class="table-responsive">
-          <button data-toggle="data-toggle" title="Create Thing" class="btn btn-primary" onclick="createThings();">
-            <i class="fa fa-plus-circle">Create Things</i>
+          <button data-toggle="data-toggle" title="Create Channel" class="btn btn-primary" onclick="createChannel();">
+            <i class="fa fa-plus-circle">Create Channel</i>
           </button>
           <br><br>
-          <table id="thingsTable" name="thingsTable" class="table table-bordered table-hover table-light">
+          <table id="channelsTable" name="channelsTable" class="table table-bordered table-hover table-light">
               <thead class="thead-dark">
                   <tr>
                       <th>No</th>
                       <th>Name</th>
                       <th>Description</th>
-                      <th>Hardware</th>
-                      <th>Created At</th>
+                      <th>Type</th>
+                      <th>Current Value</th>
                       <th>Action</th>
                   </tr>
               </thead>
               <tbody>
-                @foreach($things as $key=>$thing)
+                @foreach($channels as $key=>$channel)
                   <tr>
                       <td>{{$key+1}}</td>
-                      <td>{{$thing->name}}</td>
-                      <td>{{$thing->description}}</td>
-                      <td>{{$thing->hardware}}</td>
-                      <td>{{$thing->created_at}}</td>
+                      <td>{{$channel->name}}</td>
+                      <td>{{$channel->description}}</td>
+                      <td>{{$channel->type_id}}</td>
+                      <td>{{$channel->value}}</td>
                       <td>
-                          <a href="{{url('things/channels')}}?id={{$thing->id}}" class="btn btn-primary btn-sm"><i class="fa fa-bars"></i></a>
+                          <a href="{{url('things/channels')}}" class="btn btn-primary btn-sm"><i class="fa fa-bars"></i></a>
                           <button data-toggle="data-toggle1" title="Edit Thing" class="btn btn-warning btn-sm" onclick="editThing({{$thing->id}});">
                               <i class="fa fa-edit"></i>
                           </button>
@@ -48,7 +48,7 @@
 <div id="formModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            {!! Form::open(['url' => '', 'class' => 'formAct', 'id' => 'formId', 'method' => 'POST']) !!}
+            {!! Form::open(['class' => 'formAct', 'id' => 'formId', 'method' => 'POST']) !!}
                 <div class="modal-header">
                     <h4 class="modal-title"></h4>
                 </div>
@@ -67,8 +67,8 @@
 </div>
 
 <script>
-function createThings(){
-    $(".modal-title").text("Create Things");
+function createChannel(){
+    $(".modal-title").text("Create Channel");
     $("#btnSubmit").text("Create");
     $("#formModal").modal('show');
     $("#formId").attr({"action":"{{url('things/store')}}", "method":"POST"});
@@ -80,7 +80,7 @@ function createThings(){
     });
 }
 
-function editThing(id){
+function editChannel(id){
     $(".modal-title").text("Edit Thing");
     $("#btnSubmit").text("Update");
     $("#formModal").modal('show');
@@ -94,8 +94,9 @@ function editThing(id){
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
-    $('#thingsTable').DataTable();
+    $('#channelsTable').DataTable();
 });
 </script>
+
 
 @endsection

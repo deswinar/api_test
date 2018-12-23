@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 
 class ThingsController extends Controller
 {
@@ -24,7 +25,8 @@ class ThingsController extends Controller
      */
     public function index()
     {
-        $things = \DB::table('things')->get();
+        $user_id = Auth::user()->id;
+        $things = \DB::table('things')->where('user_id', $user_id)->get();
         return view('things.index', compact('things'));
     }
 
@@ -46,11 +48,13 @@ class ThingsController extends Controller
      */
     public function store(Request $request)
     {
+        $user_id = Auth::user()->id;
         $insert = \DB::table('things')->insert([
             'name' => request('name'),
             'description' => request('description'),
             'hardware' => request('hardware'),
-            'created_at' => date('Y-m-d H:i:s')
+            'created_at' => date('Y-m-d H:i:s'),
+            'user_id' => $user_id
         ]);
         return redirect('things');
     }
@@ -72,11 +76,13 @@ class ThingsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
-        $things = \DB::table('things')->where('id', '=', $id)->first();
-        // echo($things);die;
-        return view('things.form_create0', compact('things'));
+        $id = $_GET['id'];
+        $user_id = Auth::user()->id;
+        $thing = \DB::table('things')->where('id', '=', $id)->where('user_id', $user_id)->first();
+        // print_r($thing);die;
+        return view('things.form_create')->with('thing',$thing);
     }
 
     /**
@@ -88,6 +94,13 @@ class ThingsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $update = \DB::table('things')->where('id', '=', $id)
+            ->update([
+                'name' => $request->name,
+                'description' => $request->description,
+                'hardware' => $request->hardware,
+                'updated_at' => date('Y-m-d'),
+            ]);
         return redirect('things');
     }
 
@@ -100,5 +113,11 @@ class ThingsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function channels(){
+        $id = $_GET['id'];
+        $channels = \DB::table('channels')->where('id', $id)->get();
+        return view('things.channels.index')->with('channels', $channels);
     }
 }
