@@ -27,4 +27,6 @@ Route::post('things/store', 'ThingsController@store');
 Route::get('things/edit', 'ThingsController@edit');
 Route::post('things/update/{id}', 'ThingsController@update');
 
-Route::get('things/channels', 'ThingsController@channels');
+Route::get('things/channels', 'ChannelsController@index');
+Route::get('things/channels/create', 'ChannelsController@create');
+Route::post('things/channels/store', 'ChannelsController@store');

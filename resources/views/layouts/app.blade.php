@@ -12,12 +12,15 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('DataTables/datatables.min.js') }}" defer></script>
+    <script src="{{ asset('js/bootstrap4-toggle.min.js') }}" defer></script>
+    <script src="{{ asset('js/bootstrap-input-spinner.js') }}" defer></script>    
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/all.css') }}" rel="stylesheet" >
     <link href="{{ asset('css/fontawesome.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap4-toggle.min.css') }}" rel="stylesheet" >
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">

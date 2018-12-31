@@ -28,11 +28,21 @@
                       <td>{{$key+1}}</td>
                       <td>{{$channel->name}}</td>
                       <td>{{$channel->description}}</td>
-                      <td>{{$channel->type_id}}</td>
-                      <td>{{$channel->value}}</td>
+                      <td>{{$channel->type_name}}</td>
+                      <td>{{$channel->value}}
+                          @if($channel->type_name == 'boolean')
+                              <input id="value" name="value" type="checkbox" data-toggle="toggle">
+                          @elseif($channel->type_name == 'integer')
+                              <input id="value" name="value" type="number" value="0" min="-32768" max="32768" step="1"/>
+                          @elseif($channel->type_name == 'float')
+
+                          @elseif($channel->type_name == 'string')
+
+                          @endif
+                      </td>
                       <td>
                           <a href="{{url('things/channels')}}" class="btn btn-primary btn-sm"><i class="fa fa-bars"></i></a>
-                          <button data-toggle="data-toggle1" title="Edit Thing" class="btn btn-warning btn-sm" onclick="editThing({{$thing->id}});">
+                          <button data-toggle="data-toggle1" title="Edit Thing" class="btn btn-warning btn-sm" onclick="editThing({{$channel->id}});">
                               <i class="fa fa-edit"></i>
                           </button>
                       </td>
@@ -71,10 +81,10 @@ function createChannel(){
     $(".modal-title").text("Create Channel");
     $("#btnSubmit").text("Create");
     $("#formModal").modal('show');
-    $("#formId").attr({"action":"{{url('things/store')}}", "method":"POST"});
+    $("#formId").attr({"action":"{{url('things/channels/store')}}", "method":"POST"});
 
     var token = $('meta[name="csrf_token"]').attr('content');
-    $.get("{{url('things/create')}}", function(data){
+    $.get("{{url('things/channels/create')}}", function(data){
         $("#formBatch").html(data);
         // alert(data);
     });
@@ -95,7 +105,11 @@ function editChannel(id){
 
 document.addEventListener("DOMContentLoaded", function(event) {
     $('#channelsTable').DataTable();
+    $("input[type='number']").inputSpinner()
 });
+
+
+
 </script>
 
 
